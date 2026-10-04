@@ -5,11 +5,10 @@ const experiences = [
     role: 'AI, Data & Software Development Intern',
     company: 'Skills4Mind',
     date: 'Avril – juillet 2026',
-    points: [
-      'Pipeline data back-end sur 3 sources (entraînement, biométrie, compétition) : collecte, nettoyage, feature engineering',
-      'Modèles Random Forest, XGBoost et LSTM pour prédire les chronos (objectif MAE < 2 s)',
-      'Base TimescaleDB pour séries temporelles et monitoring Grafana des KPI et des modèles',
-      'Docker / Docker Compose, CI/CD GitHub Actions, contraintes RGPD',
+      points: [
+      'Développement du back-end de Swim AI, application de prédiction de performance en natation',
+      'Pipeline data, modèles ML/DL (Random Forest, XGBoost, LSTM), TimescaleDB et Grafana',
+      'Industrialisation avec Docker, CI/CD GitHub Actions et respect du RGPD',
     ],
   },
   {

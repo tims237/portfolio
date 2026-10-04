@@ -7,11 +7,11 @@ const projects = [
       "Plateforme conteneurisée qui ingère et traite des logs JSON issus de plusieurs services simulés, avec des dashboards Kibana en temps réel pour superviser les événements système.",
     tags: ['Docker', 'Elasticsearch', 'Logstash', 'Kibana'],
   },
-  {
-    title: 'Swim AI : prédiction de performance sportive',
+    {
+    title: 'Swim AI : prédiction de performance en natation',
     description:
-      "Projet académique en équipe : nettoyage, exploration et modélisation de jeux de données multivariables pour prédire les performances de nageurs.",
-    tags: ['Python', 'Machine Learning', 'Data cleaning'],
+      "Application d'analyse prédictive développée chez Skills4Mind en équipe de 4. En charge du back-end : pipeline data sur 3 sources (entraînement, biométrie, compétition), feature engineering, modèles de prédiction de chronos (objectif MAE < 2 s) et monitoring en temps réel.",
+    tags: ['Python', 'XGBoost', 'LSTM', 'TimescaleDB', 'Grafana', 'Docker', 'GitHub Actions'],
   },
 ]
 
