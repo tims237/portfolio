@@ -9,7 +9,7 @@ export default function Hero() {
         transition={{ duration: 0.8 }}
         className="text-4xl md:text-6xl font-bold"
       >
-        Levis Noubissie
+        Elvis Noubissie
       </motion.h1>
       <motion.p
         initial={{ opacity: 0 }}
