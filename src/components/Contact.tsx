@@ -12,7 +12,7 @@ export default function Contact() {
         <a href="https://www.linkedin.com/in/elvisnoubissie" target="_blank" className="px-6 py-3 rounded-lg border border-slate-600 hover:border-slate-400 transition">
           LinkedIn
         </a>
-        <a href="https://github.com/TON-PSEUDO" target="_blank" className="px-6 py-3 rounded-lg border border-slate-600 hover:border-slate-400 transition">
+        <a href="https://github.com/tims237" target="_blank" className="px-6 py-3 rounded-lg border border-slate-600 hover:border-slate-400 transition">
           GitHub
         </a>
       </div>
