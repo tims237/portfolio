@@ -15,6 +15,13 @@ const projects = [
     tags: ['Docker', 'Elasticsearch', 'Logstash', 'Kibana'],
     link: '',
   },
+      {
+    title: 'C4ED : application bancaire simulée',
+    description:
+      "Application web de gestion de comptes avec espaces client et administrateur : dépôts, retraits, virements entre utilisateurs, plafonds de dépenses et validation des opérations. Sécurité au cœur du projet : requêtes préparées, mots de passe hachés, jetons CSRF et réinitialisation de mot de passe par jeton à durée limitée.",
+    tags: ['PHP', 'MySQL', 'PDO', 'Sécurité web'],
+    link: 'https://github.com/tims237/c4ed',
+  },
 ]
 
 export default function Projects() {
