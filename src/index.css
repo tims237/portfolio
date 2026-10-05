@@ -1,1 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400;500;600&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --color-ink: #11151b;
+  --color-rule: #2a313c;
+  --color-paper: #ece6d8;
+  --color-muted: #8d939c;
+  --color-chlore: #7fd1c7;
+  --font-display: "Bricolage Grotesque", "Arial Narrow", sans-serif;
+  --font-sans: "Instrument Sans", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-ink text-paper font-sans antialiased;
+}
+
+::selection {
+  background: var(--color-chlore);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-chlore);
+  outline-offset: 3px;
+}
+
+@keyframes defile {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.defile {
+  animation: defile 45s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .defile { animation: none; }
+}

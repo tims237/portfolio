@@ -1,32 +1,60 @@
 import { motion } from 'motion/react'
 
+const lignes = ['Elvis', 'Noubissie']
+
 export default function Hero() {
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center text-center px-6">
-      <motion.h1
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="text-4xl md:text-6xl font-bold"
-      >
-        Elvis Noubissie
-      </motion.h1>
-      <motion.p
+    <section id="haut" className="mx-auto max-w-6xl px-6 pt-20 pb-16 md:pt-28">
+      <p className="text-muted">Étudiant Data & IA à l'ECE Paris</p>
+
+      <h1 className="mt-6 font-display text-[clamp(3.6rem,14vw,11.5rem)] font-bold leading-[0.88] tracking-[-0.04em]">
+        {lignes.map((mot, i) => (
+          <span key={mot} className="block overflow-hidden pb-[0.06em]">
+            <motion.span
+              className="block"
+              initial={{ y: '105%' }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.9, delay: 0.1 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {mot}
+            </motion.span>
+          </span>
+        ))}
+      </h1>
+
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.4, duration: 0.8 }}
-        className="mt-4 text-lg md:text-xl text-slate-400 max-w-xl"
+        transition={{ delay: 0.7, duration: 0.6 }}
+        className="mt-10 grid gap-8 md:grid-cols-[1fr_auto] md:items-end"
       >
-        Étudiant Data & IA à l'ECE Paris, à la recherche d'une alternance Data Analyst
-      </motion.p>
-      <div className="mt-8 flex gap-4">
-        <a href="#projets" className="px-6 py-3 rounded-lg bg-blue-600 hover:bg-blue-500 transition">
-          Voir mes projets
-        </a>
-        <a href="#contact" className="px-6 py-3 rounded-lg border border-slate-600 hover:border-slate-400 transition">
-          Me contacter
-        </a>
-      </div>
+        <p className="max-w-xl text-lg leading-relaxed md:text-xl">
+          Je construis des pipelines de données, des modèles de machine learning et les tableaux de
+          bord qui les rendent lisibles.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <a
+            href="#projets"
+            className="rounded-full bg-chlore px-6 py-3 font-medium text-ink transition-colors hover:bg-paper"
+          >
+            Voir mes projets
+          </a>
+          <a
+            href="#contact"
+            className="rounded-full border border-rule px-6 py-3 font-medium transition-colors hover:border-paper"
+          >
+            Me contacter
+          </a>
+        </div>
+      </motion.div>
+
+      <p className="mt-12 flex items-start gap-3 text-sm text-muted">
+        <span className="relative mt-1.5 flex h-2.5 w-2.5 shrink-0">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-chlore opacity-60 motion-reduce:animate-none" />
+          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-chlore" />
+        </span>
+        Disponible pour une alternance Data Analyst ou Data Engineer, en Île-de-France ou à Lyon
+      </p>
     </section>
   )
 }
