@@ -22,10 +22,10 @@
 
 :root[data-theme="clair"] {
   --ink: #7cc8f8;
-  --rule: #5aaee6;
-  --paper: #0b2540;
-  --muted: #1d4a6b;
-  --chlore: #0b4f8a;
+  --rule: #3f8fc6;
+  --paper: #050d16;
+  --muted: #0f2c45;
+  --chlore: #063a6b;
   --crete: #ffffff;
   color-scheme: light;
 }
