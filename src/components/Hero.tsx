@@ -1,10 +1,17 @@
 import { motion } from 'motion/react'
+import Herocanvas from './Herocanvas.tsx'
 
 const lignes = ['Elvis', 'Noubissie']
 
 export default function Hero() {
   return (
-    <section id="haut" className="mx-auto max-w-6xl px-6 pt-20 pb-16 md:pt-28">
+    <section id="haut" className="relative overflow-hidden">
+      <Herocanvas />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-linear-to-b from-transparent to-ink"
+      />
+      <div className="relative mx-auto max-w-6xl px-6 pt-36 pb-24 md:pt-44">
       <p className="text-muted">Étudiant Data & IA à l'ECE Paris</p>
 
       <h1 className="mt-6 font-display text-[clamp(3.6rem,14vw,11.5rem)] font-bold leading-[0.88] tracking-[-0.04em]">
@@ -55,6 +62,7 @@ export default function Hero() {
         </span>
         Disponible pour une alternance Data Analyst ou Data Engineer, en Île-de-France ou à Lyon
       </p>
+      </div>
     </section>
   )
 }
