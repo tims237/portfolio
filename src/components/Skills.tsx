@@ -1,30 +1,30 @@
-const groups = [
-  { name: 'Data & IA', items: ['Python', 'SQL', 'Random Forest', 'XGBoost', 'LSTM', 'PyTorch', 'OpenCV'] },
-  { name: 'Data Engineering & DevOps', items: ['Docker', 'ELK', 'TimescaleDB', 'GitHub Actions', 'GitLab'] },
-  { name: 'Visualisation & BI', items: ['Power BI', 'Kibana', 'Grafana'] },
-  { name: 'Web & automatisation', items: ['JavaScript', 'React', 'TypeScript', 'APIs', 'n8n', 'Prompt engineering'] },
+const groupes = [
+  { nom: 'Data & IA', items: ['Python', 'SQL', 'scikit-learn', 'Random Forest', 'PyTorch', 'OpenCV'] },
+  { nom: 'Back-end & bases de données', items: ['FastAPI', 'PostgreSQL', 'MySQL', 'SQLAlchemy', 'PHP', 'API REST'] },
+  { nom: 'DevOps & supervision', items: ['Docker', 'Elasticsearch', 'Logstash', 'Kibana', 'Grafana', 'Git, GitLab'] },
+  { nom: 'Visualisation & web', items: ['Power BI', 'React', 'TypeScript', 'Tailwind CSS', 'n8n'] },
 ]
 
 export default function Skills() {
   return (
-    <section id="competences" className="py-24 px-6 max-w-5xl mx-auto">
-      <h2 className="text-3xl md:text-4xl font-bold mb-12">Compétences</h2>
-      <div className="grid md:grid-cols-2 gap-6">
-        {groups.map((g) => (
-          <div key={g.name} className="rounded-xl border border-slate-800 bg-slate-900 p-6">
-            <h3 className="text-lg font-semibold mb-4">{g.name}</h3>
-            <div className="flex flex-wrap gap-2">
+    <section id="competences" className="mx-auto max-w-6xl px-6 py-24">
+      <h2 className="font-display text-5xl font-bold tracking-tight md:text-7xl">Compétences</h2>
+
+      <div className="mt-14 grid gap-x-10 gap-y-12 border-t border-rule pt-10 sm:grid-cols-2 lg:grid-cols-4">
+        {groupes.map((g) => (
+          <div key={g.nom}>
+            <h3 className="font-display text-xl font-semibold text-chlore">{g.nom}</h3>
+            <ul className="mt-4 space-y-2 text-lg">
               {g.items.map((it) => (
-                <span key={it} className="text-sm px-3 py-1 rounded-full bg-slate-800 text-blue-300">
-                  {it}
-                </span>
+                <li key={it}>{it}</li>
               ))}
-            </div>
+            </ul>
           </div>
         ))}
       </div>
-      <p className="mt-8 text-slate-400">
-        Certifications : AWS Academy Cloud Foundations · Prompt Engineering, IA générative
+
+      <p className="mt-14 max-w-2xl text-muted">
+        Certifications : AWS Academy Cloud Foundations, Prompt Engineering et IA générative.
       </p>
     </section>
   )
