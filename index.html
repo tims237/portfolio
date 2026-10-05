@@ -1,11 +1,73 @@
 <!doctype html>
 <html lang="fr">
-<script>try{if(localStorage.getItem('theme')==='clair')document.documentElement.dataset.theme='clair'}catch(e){}</script>
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>portfolio</title>
+
+    <!-- Titre et description : ce que Google affiche -->
+    <title>Elvis Noubissie, Data &amp; IA</title>
+    <meta
+      name="description"
+      content="Étudiant Data &amp; IA à l'ECE Paris, en recherche d'alternance Data Analyst ou Data Engineer. Pipelines de données, machine learning et tableaux de bord."
+    />
+    <meta name="author" content="Elvis Noubissie" />
+    <meta name="theme-color" content="#0c1624" />
+
+    <!-- Icônes -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Remplace TON-SITE.vercel.app par ta vraie adresse après la mise en ligne -->
+    <link rel="canonical" href="https://TON-SITE.vercel.app/" />
+
+    <!-- Aperçu sur LinkedIn, WhatsApp, Facebook, Slack... -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Elvis Noubissie" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:title" content="Elvis Noubissie, Data &amp; IA" />
+    <meta
+      property="og:description"
+      content="Pipelines de données, machine learning et tableaux de bord. En recherche d'alternance Data Analyst ou Data Engineer."
+    />
+    <meta property="og:url" content="https://TON-SITE.vercel.app/" />
+    <meta property="og:image" content="https://TON-SITE.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Elvis Noubissie, étudiant Data &amp; IA à l'ECE Paris" />
+
+    <!-- Aperçu sur X (Twitter) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Elvis Noubissie, Data &amp; IA" />
+    <meta
+      name="twitter:description"
+      content="Pipelines de données, machine learning et tableaux de bord. En recherche d'alternance Data Analyst ou Data Engineer."
+    />
+    <meta name="twitter:image" content="https://TON-SITE.vercel.app/og-image.png" />
+
+    <!-- Fiche d'identité pour les moteurs de recherche -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Elvis Noubissie",
+        "jobTitle": "Étudiant Data & IA",
+        "alumniOf": { "@type": "CollegeOrUniversity", "name": "ECE Paris" },
+        "email": "mailto:thymnoubissie@gmail.com",
+        "url": "https://TON-SITE.vercel.app/",
+        "sameAs": ["https://www.linkedin.com/in/elvisnoubissie", "https://github.com/tims237"]
+      }
+    </script>
+
+    <!-- Applique le thème choisi avant l'affichage, pour éviter un flash -->
+    <script>
+      try {
+        if (localStorage.getItem('theme') === 'clair') {
+          document.documentElement.dataset.theme = 'clair'
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#7cc8f8')
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

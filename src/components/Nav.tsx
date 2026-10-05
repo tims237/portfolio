@@ -5,6 +5,7 @@ import { useLangue, useTextes } from '../i18n'
 const textes = {
   fr: {
     liens: [
+      { href: '#a-propos', label: 'À propos' },
       { href: '#projets', label: 'Projets' },
       { href: '#parcours', label: 'Parcours' },
       { href: '#competences', label: 'Compétences' },
@@ -18,6 +19,7 @@ const textes = {
   },
   en: {
     liens: [
+      { href: '#a-propos', label: 'About' },
       { href: '#projets', label: 'Projects' },
       { href: '#parcours', label: 'Experience' },
       { href: '#competences', label: 'Skills' },
@@ -50,6 +52,9 @@ export default function Nav() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', theme === 'clair' ? '#7cc8f8' : '#0c1624')
     try {
       localStorage.setItem('theme', theme)
     } catch {
@@ -90,7 +95,7 @@ export default function Nav() {
           </a>
 
           <div className="flex items-center gap-2 md:gap-6">
-            <ul className="mr-2 hidden gap-8 text-sm text-muted md:flex">
+            <ul className="mr-2 hidden gap-7 text-sm text-muted lg:flex">
               {t.liens.map((l) => (
                 <li key={l.href}>
                   <a href={l.href} className="transition-colors hover:text-paper">
@@ -133,7 +138,7 @@ export default function Nav() {
 
             <button
               type="button"
-              className="relative h-10 w-10 md:hidden"
+              className="relative h-10 w-10 lg:hidden"
               aria-label={ouvert ? t.fermer : t.ouvrir}
               aria-expanded={ouvert}
               aria-controls="menu-mobile"
@@ -154,7 +159,7 @@ export default function Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 flex flex-col justify-center bg-ink px-6 md:hidden"
+            className="fixed inset-0 z-40 flex flex-col justify-center bg-ink px-6 lg:hidden"
           >
             <ul className="space-y-4">
               {t.liens.map((l, i) => (
