@@ -1,4 +1,6 @@
+import { motion } from 'motion/react'
 import { useTextes } from '../i18n'
+import { SectionTitre } from './Section'
 
 const liens = {
   swim: 'https://github.com/tims237/swim-ai',
@@ -8,7 +10,10 @@ const liens = {
 
 const textes = {
   fr: {
-    titre: 'Projets',
+    label: 'Projets',
+    avant: 'Ce que ',
+    accent: "j'ai",
+    apres: ' construit',
     code: 'Voir le code source',
     projets: [
       {
@@ -41,7 +46,10 @@ const textes = {
     ],
   },
   en: {
-    titre: 'Projects',
+    label: 'Projects',
+    avant: 'What ',
+    accent: "I've",
+    apres: ' built',
     code: 'View source code',
     projets: [
       {
@@ -79,14 +87,24 @@ export default function Projects() {
   const t = useTextes(textes)
   return (
     <section id="projets" className="mx-auto max-w-6xl px-6 py-24">
-      <h2 className="font-display text-5xl font-bold tracking-tight md:text-7xl">
-        {t.titre}
-        <sup className="ml-2 text-lg font-medium text-chlore md:text-2xl">{t.projets.length}</sup>
-      </h2>
+      <SectionTitre
+        index="02"
+        label={t.label}
+        avant={t.avant}
+        accent={t.accent}
+        apres={t.apres}
+        extra={<sup className="ml-2 font-sans text-lg font-medium text-chlore md:text-2xl">{t.projets.length}</sup>}
+      />
 
       <ul className="mt-14 border-t border-rule">
         {t.projets.map((p) => (
-          <li key={p.nom} className="group grid gap-6 border-b border-rule py-10 md:grid-cols-[1fr_1.4fr] md:gap-12">
+          <motion.li
+            key={p.nom}
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="group grid gap-6 border-b border-rule py-10 md:grid-cols-[1fr_1.4fr] md:gap-12">
             <div>
               <h3 className="font-display text-3xl font-semibold tracking-tight transition-colors group-hover:text-chlore md:text-5xl">
                 {p.nom}
@@ -108,7 +126,7 @@ export default function Projects() {
                 </a>
               )}
             </div>
-          </li>
+          </motion.li>
         ))}
       </ul>
     </section>

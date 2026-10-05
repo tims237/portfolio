@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@1&display=swap');
 @import "tailwindcss";
 
 /* Les couleurs changent selon le thème : bleu marin (par défaut) ou bleu ciel */
@@ -33,6 +33,7 @@
 @theme {
   --font-display: "Bricolage Grotesque", "Arial Narrow", sans-serif;
   --font-sans: "Instrument Sans", system-ui, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
 }
 
 html {
@@ -98,6 +99,13 @@ body {
 .barre {
   transform-origin: bottom;
   animation: barre 0.9s ease-in-out infinite;
+}
+
+/* Mot dessiné en contour, sans remplissage */
+.texte-contour {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-chlore);
+  padding-right: 0.06em;
 }
 
 /* Curseurs du lecteur : partie remplie colorée */

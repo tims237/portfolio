@@ -1,8 +1,13 @@
+import { motion } from 'motion/react'
 import { useTextes } from '../i18n'
+import { Reveal, SectionTitre } from './Section'
 
 const textes = {
   fr: {
-    titre: 'Parcours',
+    label: 'Parcours',
+    avant: "D'où ",
+    accent: 'je',
+    apres: ' viens',
     titreFormation: 'Formation',
     experiences: [
       {
@@ -40,7 +45,10 @@ const textes = {
     ],
   },
   en: {
-    titre: 'Experience',
+    label: 'Experience',
+    avant: 'Where ',
+    accent: 'I',
+    apres: ' come from',
     titreFormation: 'Education',
     experiences: [
       {
@@ -83,11 +91,17 @@ export default function Experience() {
   const t = useTextes(textes)
   return (
     <section id="parcours" className="mx-auto max-w-6xl px-6 py-24">
-      <h2 className="font-display text-5xl font-bold tracking-tight md:text-7xl">{t.titre}</h2>
+      <SectionTitre index="04" label={t.label} avant={t.avant} accent={t.accent} apres={t.apres} />
 
       <ol className="mt-14 border-t border-rule">
         {t.experiences.map((e) => (
-          <li key={e.entreprise} className="grid gap-3 border-b border-rule py-8 md:grid-cols-[14rem_1fr] md:gap-12">
+          <motion.li
+            key={e.entreprise}
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="grid gap-3 border-b border-rule py-8 md:grid-cols-[14rem_1fr] md:gap-12">
             <p className="text-muted">{e.periode}</p>
             <div className="max-w-2xl">
               <h3 className="font-display text-2xl font-semibold tracking-tight">
@@ -99,10 +113,11 @@ export default function Experience() {
                 ))}
               </ul>
             </div>
-          </li>
+          </motion.li>
         ))}
       </ol>
 
+      <Reveal>
       <h3 className="mt-20 font-display text-3xl font-bold tracking-tight">{t.titreFormation}</h3>
       <ol className="mt-8 border-t border-rule">
         {t.formations.map((f) => (
@@ -114,6 +129,7 @@ export default function Experience() {
           </li>
         ))}
       </ol>
+      </Reveal>
     </section>
   )
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, motion, useScroll, useSpring } from 'motion/react'
 import { useLangue, useTextes } from '../i18n'
 
 const textes = {
@@ -7,6 +7,7 @@ const textes = {
     liens: [
       { href: '#a-propos', label: 'À propos' },
       { href: '#projets', label: 'Projets' },
+      { href: '#methode', label: 'Méthode' },
       { href: '#parcours', label: 'Parcours' },
       { href: '#competences', label: 'Compétences' },
       { href: '#contact', label: 'Contact' },
@@ -21,6 +22,7 @@ const textes = {
     liens: [
       { href: '#a-propos', label: 'About' },
       { href: '#projets', label: 'Projects' },
+      { href: '#methode', label: 'Method' },
       { href: '#parcours', label: 'Experience' },
       { href: '#competences', label: 'Skills' },
       { href: '#contact', label: 'Contact' },
@@ -49,6 +51,9 @@ export default function Nav() {
   const [defile, setDefile] = useState(false)
   const [ouvert, setOuvert] = useState(false)
   const [theme, setTheme] = useState<Theme>(themeInitial)
+  // Barre de progression de la lecture de la page
+  const { scrollYProgress } = useScroll()
+  const progressionPage = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.001 })
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
@@ -95,7 +100,7 @@ export default function Nav() {
           </a>
 
           <div className="flex items-center gap-2 md:gap-6">
-            <ul className="mr-2 hidden gap-7 text-sm text-muted lg:flex">
+            <ul className="mr-2 hidden gap-6 text-sm text-muted lg:flex">
               {t.liens.map((l) => (
                 <li key={l.href}>
                   <a href={l.href} className="transition-colors hover:text-paper">
@@ -149,6 +154,11 @@ export default function Nav() {
             </button>
           </div>
         </nav>
+        <motion.span
+          aria-hidden="true"
+          style={{ scaleX: progressionPage }}
+          className="absolute right-0 -bottom-px left-0 h-[2px] origin-left bg-chlore"
+        />
       </header>
 
       <AnimatePresence>

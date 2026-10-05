@@ -1,8 +1,11 @@
 import { useTextes } from '../i18n'
+import { Reveal, SectionTitre } from './Section'
 
 const textes = {
   fr: {
-    titre: 'Compétences',
+    label: 'Compétences',
+    avant: 'Mes ',
+    accent: 'outils',
     certifs: 'Certifications : AWS Academy Cloud Foundations, Prompt Engineering et IA générative.',
     groupes: [
       { nom: 'Data & IA', items: ['Python', 'SQL', 'scikit-learn', 'Random Forest', 'PyTorch', 'OpenCV'] },
@@ -12,7 +15,9 @@ const textes = {
     ],
   },
   en: {
-    titre: 'Skills',
+    label: 'Skills',
+    avant: 'My ',
+    accent: 'toolkit',
     certifs: 'Certifications: AWS Academy Cloud Foundations, Prompt Engineering and Generative AI.',
     groupes: [
       { nom: 'Data & AI', items: ['Python', 'SQL', 'scikit-learn', 'Random Forest', 'PyTorch', 'OpenCV'] },
@@ -27,9 +32,9 @@ export default function Skills() {
   const t = useTextes(textes)
   return (
     <section id="competences" className="mx-auto max-w-6xl px-6 py-24">
-      <h2 className="font-display text-5xl font-bold tracking-tight md:text-7xl">{t.titre}</h2>
+      <SectionTitre index="05" label={t.label} avant={t.avant} accent={t.accent} />
 
-      <div className="mt-14 grid gap-x-10 gap-y-12 border-t border-rule pt-10 sm:grid-cols-2 lg:grid-cols-4">
+      <Reveal className="mt-14 grid gap-x-10 gap-y-12 border-t border-rule pt-10 sm:grid-cols-2 lg:grid-cols-4">
         {t.groupes.map((g) => (
           <div key={g.nom}>
             <h3 className="font-display text-xl font-semibold text-chlore">{g.nom}</h3>
@@ -40,7 +45,7 @@ export default function Skills() {
             </ul>
           </div>
         ))}
-      </div>
+      </Reveal>
 
       <p className="mt-14 max-w-2xl text-muted">{t.certifs}</p>
     </section>

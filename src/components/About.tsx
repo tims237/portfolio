@@ -1,8 +1,12 @@
 import { useTextes } from '../i18n'
+import { Reveal, SectionTitre } from './Section'
 
 const textes = {
   fr: {
-    titre: 'À propos',
+    label: 'À propos',
+    avant: 'Qui ',
+    accent: 'je',
+    apres: ' suis',
     paragraphes: [
       "Je suis en troisième année de Bachelor Informatique, spécialité Data & IA, à l'ECE Paris, et je compte poursuivre en cycle ingénieur. Mon objectif à terme : devenir ingénieur en intelligence artificielle.",
       "Avant la data, il y a eu le terrain : la vente, puis le support informatique et l'administration réseau. Ces expériences m'ont appris à être fiable, à écouter les utilisateurs et à résoudre des problèmes concrets.",
@@ -16,7 +20,10 @@ const textes = {
     ],
   },
   en: {
-    titre: 'About',
+    label: 'About',
+    avant: 'Who ',
+    accent: 'I',
+    apres: ' am',
     paragraphes: [
       "I'm a third-year Computer Science student specialising in Data & AI at ECE Paris, and I plan to continue into the engineering degree programme. My long-term goal: to become an AI engineer.",
       'Before data, I learned on the ground: retail, then IT support and network administration. Those jobs taught me to be reliable, to listen to users and to solve real problems.',
@@ -35,9 +42,9 @@ export default function About() {
   const t = useTextes(textes)
   return (
     <section id="a-propos" className="mx-auto max-w-6xl px-6 py-24">
-      <h2 className="font-display text-5xl font-bold tracking-tight md:text-7xl">{t.titre}</h2>
+      <SectionTitre index="01" label={t.label} avant={t.avant} accent={t.accent} apres={t.apres} />
 
-      <div className="mt-14 grid gap-12 border-t border-rule pt-10 md:grid-cols-[1.5fr_1fr] md:gap-16">
+      <Reveal className="mt-14 grid gap-12 border-t border-rule pt-10 md:grid-cols-[1.5fr_1fr] md:gap-16">
         <div className="max-w-2xl space-y-5 text-lg leading-relaxed">
           {t.paragraphes.map((p, i) => (
             <p key={i} className={i === 0 ? 'text-xl md:text-2xl md:leading-snug' : 'text-muted'}>
@@ -54,7 +61,7 @@ export default function About() {
             </div>
           ))}
         </dl>
-      </div>
+      </Reveal>
     </section>
   )
 }

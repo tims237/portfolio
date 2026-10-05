@@ -4,6 +4,7 @@ import Nav from './components/Nav'
 import Hero from './components/Hero'
 import Marquee from './components/Marquee'
 import About from './components/About'
+import Methode from './components/Methode'
 import Projects from './components/Projects'
 import Experience from './components/Experience'
 import Skills from './components/Skills'
@@ -23,6 +24,7 @@ export default function App() {
           <Marquee />
           <About />
           <Projects />
+          <Methode />
           <Experience />
           <Skills />
           <Contact />
