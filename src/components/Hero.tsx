@@ -1,6 +1,9 @@
+import { lazy, Suspense } from 'react'
 import { motion } from 'motion/react'
-import HeroCanvas from './HeroCanvas.tsx'
 import { useTextes } from '../i18n'
+
+// Three.js est chargé à part, après le reste de la page, pour ne pas ralentir l'affichage
+const HeroCanvas = lazy(() => import('./HeroCanvas'))
 
 const lignes = ['Elvis', 'Noubissie']
 
@@ -26,7 +29,9 @@ export default function Hero() {
   const t = useTextes(textes)
   return (
     <section id="haut" className="relative overflow-hidden">
-      <HeroCanvas />
+      <Suspense fallback={null}>
+        <HeroCanvas />
+      </Suspense>
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-linear-to-b from-transparent to-ink"
