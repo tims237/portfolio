@@ -100,6 +100,53 @@ body {
   animation: barre 0.9s ease-in-out infinite;
 }
 
+/* Curseurs du lecteur : partie remplie colorée */
+.curseur {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 9999px;
+  background: linear-gradient(to right, var(--color-chlore) var(--fill, 0%), var(--color-rule) var(--fill, 0%));
+  cursor: pointer;
+}
+
+.curseur::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: var(--color-paper);
+  border: 3px solid var(--color-chlore);
+  transition: transform 0.15s;
+}
+
+.curseur:hover::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+
+.curseur::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: var(--color-paper);
+  border: 3px solid var(--color-chlore);
+}
+
+/* Disque vinyle derrière la pochette */
+.disque {
+  background:
+    radial-gradient(circle, var(--color-chlore) 0 15%, #0a0f16 16% 18%, transparent 19%),
+    repeating-radial-gradient(circle, #111820 0 2px, #1c2531 2px 3px);
+}
+
+@keyframes tourne {
+  to { transform: rotate(360deg); }
+}
+
+.disque-tourne {
+  animation: tourne 3.2s linear infinite;
+}
+
 /* Curseur personnalisé (souris uniquement) */
 .cursor-dot,
 .cursor-ring {
@@ -151,4 +198,5 @@ body.has-cursor button {
   .defile { animation: none; }
   .grain { animation: none; }
   .barre { animation: none; }
+  .disque-tourne { animation: none; }
 }
