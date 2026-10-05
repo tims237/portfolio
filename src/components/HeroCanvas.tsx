@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 
 // Surface d'eau faite de points de données, qui ondule doucement.
-export default function Herocanvas() {
+export default function HeroCanvas() {
   const ref = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -21,6 +21,9 @@ export default function Herocanvas() {
     let dernier = performance.now()
 
     const dessiner = () => {
+      const styles = getComputedStyle(document.documentElement)
+      const accent = styles.getPropertyValue('--chlore').trim() || '#7fd1c7'
+      const crete2 = styles.getPropertyValue('--crete').trim() || '#ece6d8'
       ctx.clearRect(0, 0, w, h)
       const focale = h * 0.6
       const horizon = h * 0.52
@@ -41,7 +44,7 @@ export default function Herocanvas() {
           const taille = Math.max(1, 5 / z)
           const crete = (hauteur + 0.54) / 1.08
           ctx.globalAlpha = fondu * (0.22 + 0.7 * crete)
-          ctx.fillStyle = crete > 0.82 ? '#ece6d8' : '#7fd1c7'
+          ctx.fillStyle = crete > 0.82 ? crete2 : accent
           ctx.fillRect(px - taille / 2, py - taille / 2, taille, taille)
         }
       }
@@ -74,6 +77,12 @@ export default function Herocanvas() {
       visible = entree.isIntersecting
     })
 
+    // Redessine quand le thème change (utile si les animations sont désactivées)
+    const themeObservateur = new MutationObserver(() => {
+      if (reduit) dessiner()
+    })
+    themeObservateur.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
+
     redimensionner()
     observateur.observe(canvas)
     window.addEventListener('resize', redimensionner)
@@ -84,6 +93,7 @@ export default function Herocanvas() {
     return () => {
       cancelAnimationFrame(raf)
       observateur.disconnect()
+      themeObservateur.disconnect()
       window.removeEventListener('resize', redimensionner)
       window.removeEventListener('pointermove', bouger)
     }

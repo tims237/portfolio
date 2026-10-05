@@ -1,12 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
+/* Les couleurs changent selon le thème : bleu marin (par défaut) ou bleu ciel */
+@theme inline {
+  --color-ink: var(--ink);
+  --color-rule: var(--rule);
+  --color-paper: var(--paper);
+  --color-muted: var(--muted);
+  --color-chlore: var(--chlore);
+}
+
+:root {
+  --ink: #0c1624;
+  --rule: #22324a;
+  --paper: #ece6d8;
+  --muted: #8d9bac;
+  --chlore: #7fd1c7;
+  --crete: #ece6d8;
+  color-scheme: dark;
+}
+
+:root[data-theme="clair"] {
+  --ink: #7cc8f8;
+  --rule: #5aaee6;
+  --paper: #0b2540;
+  --muted: #1d4a6b;
+  --chlore: #0b4f8a;
+  --crete: #ffffff;
+  color-scheme: light;
+}
+
 @theme {
-  --color-ink: #11151b;
-  --color-rule: #2a313c;
-  --color-paper: #ece6d8;
-  --color-muted: #8d939c;
-  --color-chlore: #7fd1c7;
   --font-display: "Bricolage Grotesque", "Arial Narrow", sans-serif;
   --font-sans: "Instrument Sans", system-ui, sans-serif;
 }
@@ -18,6 +42,7 @@ html {
 
 body {
   @apply bg-ink text-paper font-sans antialiased;
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 ::selection {
@@ -52,12 +77,27 @@ body {
   animation: grain 7s steps(8) infinite;
 }
 
+:root[data-theme="clair"] .grain {
+  opacity: 0.06;
+}
+
 @keyframes grain {
   0%, 100% { transform: translate(0, 0); }
   20% { transform: translate(-4%, -6%); }
   40% { transform: translate(-8%, 3%); }
   60% { transform: translate(5%, -4%); }
   80% { transform: translate(3%, 7%); }
+}
+
+/* Petites barres animées du bouton de musique */
+@keyframes barre {
+  0%, 100% { transform: scaleY(0.4); }
+  50% { transform: scaleY(1); }
+}
+
+.barre {
+  transform-origin: bottom;
+  animation: barre 0.9s ease-in-out infinite;
 }
 
 /* Curseur personnalisé (souris uniquement) */
@@ -92,7 +132,7 @@ body {
   width: 64px;
   height: 64px;
   margin: -32px 0 0 -32px;
-  background-color: rgb(127 209 199 / 0.12);
+  background-color: color-mix(in srgb, var(--chlore) 15%, transparent);
 }
 
 .cursor-dot.is-visible,
@@ -110,4 +150,5 @@ body.has-cursor button {
   html { scroll-behavior: auto; }
   .defile { animation: none; }
   .grain { animation: none; }
+  .barre { animation: none; }
 }
