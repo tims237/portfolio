@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useTextes } from '../i18n'
-import { enregistrerAnalyseur } from '../audio'
+import { enregistrerAnalyseur, lireSpectre } from '../audio'
+import DonneesMorceau from './DonneesMorceau'
 
 type Morceau = {
   titre: string
@@ -63,6 +64,15 @@ const textes = {
     sansTexte: 'Pas de texte pour ce morceau',
     couper: 'Couper le son',
     remettre: 'Remettre le son',
+    donnees: 'Données du morceau',
+    basses: 'Basses',
+    mediums: 'Médiums',
+    aigus: 'Aigus',
+    tempo: 'Tempo détecté',
+    analyse: 'Analyse en cours…',
+    methode: 'Spectre par transformée de Fourier en temps réel (Web Audio API). Tempo calculé sur le fichier par flux spectral et autocorrélation.',
+    afficherDonnees: 'Afficher les données',
+    masquerDonnees: 'Masquer les données',
   },
   en: {
     playlist: 'My playlist',
@@ -84,6 +94,15 @@ const textes = {
     sansTexte: 'No text for this track',
     couper: 'Mute',
     remettre: 'Unmute',
+    donnees: 'Track data',
+    basses: 'Bass',
+    mediums: 'Mids',
+    aigus: 'Highs',
+    tempo: 'Detected tempo',
+    analyse: 'Analysing…',
+    methode: 'Spectrum from a real-time Fourier transform (Web Audio API). Tempo computed from the file using spectral flux and autocorrelation.',
+    afficherDonnees: 'Show data',
+    masquerDonnees: 'Hide data',
   },
 }
 
@@ -365,12 +384,14 @@ export default function MusicPlayer() {
   const [ouvert, setOuvert] = useState(false)
   const [immersif, setImmersif] = useState(false)
   const [bulle, setBulle] = useState(true)
+  const [donneesVisibles, setDonneesVisibles] = useState(() => window.innerWidth >= 1024)
   const [position, setPosition] = useState(0)
   const [duree, setDuree] = useState(0)
   const [volume, setVolume] = useState(0.7)
   const [muet, setMuet] = useState(false)
   const [durees, setDurees] = useState<Record<number, number>>({})
   const [formesOnde, setFormesOnde] = useState<Record<number, number[]>>({})
+  const [tempos, setTempos] = useState<Record<number, number | null>>({})
   const toile = useRef<HTMLCanvasElement>(null)
   const contexteAudio = useRef<AudioContext | null>(null)
   const analyseur = useRef<AnalyserNode | null>(null)
@@ -408,7 +429,7 @@ export default function MusicPlayer() {
       const contexte = new AudioContext()
       const source = contexte.createMediaElementSource(a)
       const an = contexte.createAnalyser()
-      an.fftSize = 64
+      an.fftSize = 512
       an.smoothingTimeConstant = 0.75
       source.connect(an)
       an.connect(contexte.destination)
@@ -505,16 +526,15 @@ export default function MusicPlayer() {
     canvas.height = h * dpr
     g.setTransform(dpr, 0, 0, dpr, 0, 0)
     const nombre = 24
-    const donnees = new Uint8Array(analyseur.current?.frequencyBinCount ?? 32)
     let raf = 0
     const dessiner = () => {
       g.clearRect(0, 0, w, h)
       g.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--chlore').trim() || '#7fd1c7'
       const actif = enLecture && analyseur.current && !reduit
-      if (actif) analyseur.current!.getByteFrequencyData(donnees)
+      const spectre = actif ? lireSpectre(nombre) : null
       const largeur = w / nombre
       for (let i = 0; i < nombre; i++) {
-        const v = actif ? donnees[Math.floor((i * donnees.length * 0.55) / nombre)] / 255 : enLecture ? 0.35 : 0
+        const v = spectre ? spectre[i] : enLecture ? 0.35 : 0
         const hauteur = Math.max(2, v * h)
         g.fillRect(i * largeur + 1, h - hauteur, Math.max(1, largeur - 2), hauteur)
       }
@@ -556,6 +576,16 @@ export default function MusicPlayer() {
         }
         const plusHaut = Math.max(...pics) || 1
         if (!annule) setFormesOnde((f) => ({ ...f, [index]: pics.map((p) => p / plusHaut) }))
+        // Le tempo est calculé sur le même fichier décodé, en arrière-plan (Web Worker) pour ne pas figer la page
+        const canaux = Array.from({ length: decode.numberOfChannels }, (_, c) => decode.getChannelData(c).slice())
+        const travailleur = new Worker(new URL('../tempo.worker.ts', import.meta.url), { type: 'module' })
+        travailleur.onmessage = (e: MessageEvent<number | null>) => {
+          // Pas de vérification « annule » ici : le résultat reste valable pour ce morceau
+          setTempos((tp) => ({ ...tp, [index]: e.data }))
+          travailleur.terminate()
+        }
+        travailleur.onerror = () => travailleur.terminate()
+        travailleur.postMessage({ sampleRate: decode.sampleRate, canaux }, canaux.map((c) => c.buffer))
       } catch {
         // Pas de forme d'onde : la barre de progression reste simple
       }
@@ -868,6 +898,19 @@ export default function MusicPlayer() {
                   <p className="truncate text-xs font-semibold tracking-[0.18em] text-muted uppercase">{morceau.artiste}</p>
                 </div>
               </div>
+              <div className="flex shrink-0 items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setDonneesVisibles((v) => !v)}
+                aria-pressed={donneesVisibles}
+                aria-label={donneesVisibles ? t.masquerDonnees : t.afficherDonnees}
+                title={donneesVisibles ? t.masquerDonnees : t.afficherDonnees}
+                className={`${boutonRond} h-11 w-11 border ${donneesVisibles ? 'border-chlore text-chlore' : 'border-rule'} hover:border-chlore hover:text-chlore`}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+                  <path d="M4 20V10M9 20V4M14 20v-7M19 20V8" />
+                </svg>
+              </button>
               <button
                 ref={boutonFermer}
                 type="button"
@@ -877,8 +920,10 @@ export default function MusicPlayer() {
               >
                 <IconeCroix taille={18} />
               </button>
+              </div>
             </header>
 
+            <div className="relative flex min-h-0 flex-1">
             <div className="relative flex-1 overflow-y-auto px-6 md:px-12" tabIndex={0}>
               <div className="mx-auto flex max-w-4xl flex-col gap-5 py-[35vh]">
                 {lignes.length === 0 && (
@@ -907,6 +952,12 @@ export default function MusicPlayer() {
                   )
                 })}
               </div>
+            </div>
+            {donneesVisibles && (
+              <aside className="absolute inset-x-4 bottom-2 z-10 lg:static lg:flex lg:w-80 lg:shrink-0 lg:items-center lg:pr-12">
+                <DonneesMorceau key={index} actif={enLecture} tempo={tempos[index]} t={t} />
+              </aside>
+            )}
             </div>
 
             <footer className="relative px-6 pb-8 md:px-12">
