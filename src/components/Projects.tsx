@@ -2,6 +2,10 @@ import { motion } from 'motion/react'
 import { useTextes } from '../i18n'
 import { SectionTitre } from './Section'
 
+const demos = {
+  swim: 'https://swim-ai-three.vercel.app',
+}
+
 const liens = {
   swim: 'https://github.com/tims237/swim-ai',
   c4ed: 'https://github.com/tims237/c4ed',
@@ -15,6 +19,8 @@ const textes = {
     accent: "j'ai",
     apres: ' construit',
     code: 'Voir le code source',
+    demo: "Voir l'application",
+    essayer: 'Essayer le calcul ↓',
     projets: [
       {
         nom: 'Swim AI',
@@ -24,6 +30,7 @@ const textes = {
           "En charge du back-end dans une équipe de 4 : API REST FastAPI de 27 routes avec authentification JWT et trois rôles, calcul de la charge d'entraînement (ACWR), score de fatigue et score de risque de surentraînement par Random Forest.",
         stack: ['Python', 'FastAPI', 'PostgreSQL', 'SQLAlchemy', 'scikit-learn', 'React', 'Docker', 'Grafana'],
         lien: liens.swim,
+        demo: demos.swim,
       },
       {
         nom: 'C4ED',
@@ -33,6 +40,7 @@ const textes = {
           'Dépôts, retraits, virements entre utilisateurs, plafonds de dépenses et validation des opérations. Sécurité au cœur du projet : requêtes préparées, mots de passe hachés, jetons CSRF et réinitialisation par jeton à durée limitée.',
         stack: ['PHP', 'MySQL', 'PDO', 'HTML', 'CSS'],
         lien: liens.c4ed,
+        demo: '',
       },
       {
         nom: 'Plateforme de logs ELK',
@@ -42,6 +50,7 @@ const textes = {
           'Plateforme conteneurisée qui ingère et traite des logs JSON issus de plusieurs services simulés, avec des dashboards Kibana pour analyser et superviser les événements système.',
         stack: ['Docker', 'Elasticsearch', 'Logstash', 'Kibana'],
         lien: liens.elk,
+        demo: '',
       },
     ],
   },
@@ -51,6 +60,8 @@ const textes = {
     accent: "I've",
     apres: ' built',
     code: 'View source code',
+    demo: 'Open the app',
+    essayer: 'Try the calculation ↓',
     projets: [
       {
         nom: 'Swim AI',
@@ -60,6 +71,7 @@ const textes = {
           'Back-end owner in a team of 4: FastAPI REST API with 27 routes, JWT authentication and three roles, training load (ACWR), fatigue score and an overtraining risk score built with a Random Forest.',
         stack: ['Python', 'FastAPI', 'PostgreSQL', 'SQLAlchemy', 'scikit-learn', 'React', 'Docker', 'Grafana'],
         lien: liens.swim,
+        demo: demos.swim,
       },
       {
         nom: 'C4ED',
@@ -69,6 +81,7 @@ const textes = {
           'Deposits, withdrawals, transfers between users, spending limits and transaction approval. Security first: prepared statements, hashed passwords, CSRF tokens and time-limited password reset tokens.',
         stack: ['PHP', 'MySQL', 'PDO', 'HTML', 'CSS'],
         lien: liens.c4ed,
+        demo: '',
       },
       {
         nom: 'ELK log platform',
@@ -78,6 +91,7 @@ const textes = {
           'Containerised platform that ingests and processes JSON logs from several simulated services, with Kibana dashboards to analyse and monitor system events.',
         stack: ['Docker', 'Elasticsearch', 'Logstash', 'Kibana'],
         lien: liens.elk,
+        demo: '',
       },
     ],
   },
@@ -115,16 +129,33 @@ export default function Projects() {
               <p className="text-lg">{p.resume}</p>
               <p className="mt-3 leading-relaxed text-muted">{p.detail}</p>
               <p className="mt-5 text-sm text-paper/80">{p.stack.join(', ')}</p>
-              {p.lien && (
-                <a
-                  href={p.lien}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-6 inline-block border-b border-chlore pb-0.5 font-medium text-chlore transition-colors hover:border-paper hover:text-paper"
-                >
-                  {t.code}
-                </a>
-              )}
+              <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
+                {p.demo && (
+                  <a
+                    href={p.demo}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="border-b border-chlore pb-0.5 font-medium text-chlore transition-colors hover:border-paper hover:text-paper"
+                  >
+                    {t.demo} ↗
+                  </a>
+                )}
+                {p.lien && (
+                  <a
+                    href={p.lien}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="border-b border-rule pb-0.5 font-medium transition-colors hover:border-chlore hover:text-chlore"
+                  >
+                    {t.code}
+                  </a>
+                )}
+                {p.demo && (
+                  <a href="#demo" className="border-b border-rule pb-0.5 font-medium transition-colors hover:border-chlore hover:text-chlore">
+                    {t.essayer}
+                  </a>
+                )}
+              </div>
             </div>
           </motion.li>
         ))}

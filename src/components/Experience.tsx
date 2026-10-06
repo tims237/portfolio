@@ -91,7 +91,7 @@ export default function Experience() {
   const t = useTextes(textes)
   return (
     <section id="parcours" className="mx-auto max-w-6xl px-6 py-24">
-      <SectionTitre index="04" label={t.label} avant={t.avant} accent={t.accent} apres={t.apres} />
+      <SectionTitre index="05" label={t.label} avant={t.avant} accent={t.accent} apres={t.apres} />
 
       <ol className="mt-14 border-t border-rule">
         {t.experiences.map((e) => (

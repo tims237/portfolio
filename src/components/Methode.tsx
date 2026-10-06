@@ -87,7 +87,7 @@ export default function Methode() {
 
   return (
     <section id="methode" className="mx-auto max-w-6xl px-6 py-24">
-      <SectionTitre index="03" label={t.label} avant={t.avant} accent={t.accent} apres={t.apres} />
+      <SectionTitre index="04" label={t.label} avant={t.avant} accent={t.accent} apres={t.apres} />
 
       <ol ref={liste} className="relative mt-16 space-y-14 pl-12 md:pl-16">
         {/* Ligne de fond et ligne de progression */}

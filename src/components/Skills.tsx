@@ -32,7 +32,7 @@ export default function Skills() {
   const t = useTextes(textes)
   return (
     <section id="competences" className="mx-auto max-w-6xl px-6 py-24">
-      <SectionTitre index="05" label={t.label} avant={t.avant} accent={t.accent} />
+      <SectionTitre index="06" label={t.label} avant={t.avant} accent={t.accent} />
 
       <Reveal className="mt-14 grid gap-x-10 gap-y-12 border-t border-rule pt-10 sm:grid-cols-2 lg:grid-cols-4">
         {t.groupes.map((g) => (

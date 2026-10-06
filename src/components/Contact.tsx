@@ -64,7 +64,7 @@ export default function Contact() {
     <section id="contact" className="border-t border-rule">
       <div className="mx-auto max-w-6xl px-6 py-28">
         <Reveal>
-          <p className="text-xs font-semibold tracking-[0.22em] text-chlore uppercase">06 / {t.label}</p>
+          <p className="text-xs font-semibold tracking-[0.22em] text-chlore uppercase">07 / {t.label}</p>
           <h2 className="mt-6 font-display text-[clamp(3rem,10vw,8.5rem)] leading-[0.92] font-bold tracking-[-0.03em]">
             {t.avant}
             <span className="texte-contour italic">{t.contour}</span>

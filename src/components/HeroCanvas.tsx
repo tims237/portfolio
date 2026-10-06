@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
+import { lireNiveaux } from '../audio.ts'
 
 // Surface d'eau en 3D faite de points de données.
 // Le relief est calculé par la carte graphique (shader), ce qui permet d'animer
@@ -9,14 +10,22 @@ const vertexShader = /* glsl */ `
   uniform float uTemps;
   uniform vec2 uSouris;
   uniform float uTaille;
+  uniform float uBasses;
+  uniform float uMediums;
   varying float vHauteur;
   varying float vProfondeur;
 
   void main() {
     vec3 p = position;
-    float vague = sin(p.x * 0.32 + uTemps * 0.9) * 0.55
+    // Les basses de la musique font gonfler les vagues
+    float energie = 1.0 + uBasses * 1.8;
+    float vague = (sin(p.x * 0.32 + uTemps * 0.9) * 0.55
                 + cos(p.y * 0.26 - uTemps * 0.7) * 0.45
-                + sin((p.x + p.y) * 0.17 + uTemps * 0.5) * 0.35;
+                + sin((p.x + p.y) * 0.17 + uTemps * 0.5) * 0.35) * energie;
+
+    // Les médiums envoient une onde depuis le centre de la surface
+    float dc = length(p.xy);
+    vague += sin(dc * 0.55 - uTemps * 4.0) * uMediums * 0.9 * exp(-dc * 0.04);
 
     // Onde circulaire autour de la souris
     float d = distance(p.xy, uSouris);
@@ -28,13 +37,14 @@ const vertexShader = /* glsl */ `
     vec4 mv = modelViewMatrix * vec4(p, 1.0);
     vProfondeur = -mv.z;
     gl_Position = projectionMatrix * mv;
-    gl_PointSize = uTaille * (14.0 / -mv.z);
+    gl_PointSize = uTaille * (1.0 + uBasses * 0.9) * (14.0 / -mv.z);
   }
 `
 
 const fragmentShader = /* glsl */ `
   uniform vec3 uCouleur;
   uniform vec3 uCrete;
+  uniform float uAigus;
   varying float vHauteur;
   varying float vProfondeur;
 
@@ -48,7 +58,9 @@ const fragmentShader = /* glsl */ `
     vec3 couleur = mix(uCouleur, uCrete, crete);
     float brouillard = smoothstep(60.0, 14.0, vProfondeur);
 
-    gl_FragColor = vec4(couleur, bord * brouillard * (0.35 + 0.65 * crete));
+    // Les aigus font briller les crêtes
+    float eclat = 1.0 + uAigus * 0.9;
+    gl_FragColor = vec4(couleur, min(1.0, bord * brouillard * (0.35 + 0.65 * crete) * eclat));
   }
 `
 
@@ -89,6 +101,9 @@ export default function HeroCanvas() {
       uTemps: { value: 0 },
       uSouris: { value: new THREE.Vector2(999, 999) },
       uTaille: { value: 2.4 * dpr },
+      uBasses: { value: 0 },
+      uMediums: { value: 0 },
+      uAigus: { value: 0 },
       uCouleur: { value: new THREE.Color(couleurCss('--chlore', '#7fd1c7')) },
       uCrete: { value: new THREE.Color(couleurCss('--crete', '#ece6d8')) },
     }
@@ -168,7 +183,12 @@ export default function HeroCanvas() {
       const delta = Math.min((maintenant - dernier) / 1000, 0.05)
       dernier = maintenant
       if (!visible || document.hidden) return
-      uniforms.uTemps.value += delta
+      // Réaction à la musique, lissée pour éviter les à-coups
+      const niveaux = lireNiveaux()
+      uniforms.uBasses.value += (niveaux.basses - uniforms.uBasses.value) * 0.25
+      uniforms.uMediums.value += (niveaux.mediums - uniforms.uMediums.value) * 0.2
+      uniforms.uAigus.value += (niveaux.aigus - uniforms.uAigus.value) * 0.3
+      uniforms.uTemps.value += delta * (1 + uniforms.uBasses.value * 0.6)
       uniforms.uSouris.value.lerp(sourisCible, 0.08)
       parallaxeLisse += (parallaxe - parallaxeLisse) * 0.04
       camera.position.x = parallaxeLisse * 2.2

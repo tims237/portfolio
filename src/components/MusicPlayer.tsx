@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useTextes } from '../i18n'
+import { enregistrerAnalyseur } from '../audio'
 
 type Morceau = {
   titre: string
@@ -17,9 +18,28 @@ type Morceau = {
 // 2. Ajoute une ligne par morceau ci-dessous.
 // Le lecteur reste caché tant que la liste est vide.
 const MORCEAUX: Morceau[] = [
-  // { titre: 'Nom du morceau', artiste: "Nom de l'artiste", fichier: '/musique/mon-morceau.mp3', couverture: '/musique/pochette.jpg', credit: 'Pixabay',
-  //   paroles: `[00:04.00] Première phrase qui s'écrit
-  // [00:09.50] Deuxième phrase` },
+  {
+    titre: 'Royalty Free Music',
+    artiste: 'Nastelbom',
+    fichier: '/musique/morceau1.mp3',
+    credit: 'Pixabay',
+    paroles: `[00:08.50] Chante avec moi
+[00:15.63] Il est tard, la ville s'endort
+[00:22.73] Le pipeline tourne encore
+[00:29.84] Les données coulent comme la pluie sur la vitre
+[00:36.94] On cherche le signal dans le bruit
+[00:44.07] Et la tendance se dessine
+[00:51.18]
+[00:58.28] Chante avec moi
+[01:05.39] Le modèle apprend, ligne après ligne
+[01:12.52] Les courbes montent sur le tableau de bord
+[01:19.62] Chaque chiffre raconte une histoire
+[01:26.73] Demain, la décision sera plus claire
+[01:33.86] Chante avec moi, la vague reviendra
+[01:38.80]`,
+  },
+  { titre: 'Morceau 2', artiste: 'Artiste', fichier: '/musique/morceau2.mp3' },
+  { titre: 'Morceau 3', artiste: 'Artiste', fichier: '/musique/morceau3.mp3' },
 ]
 
 const textes = {
@@ -394,6 +414,7 @@ export default function MusicPlayer() {
       an.connect(contexte.destination)
       contexteAudio.current = contexte
       analyseur.current = an
+      enregistrerAnalyseur(an)
     } catch {
       // Sans Web Audio, la musique fonctionne quand même : seul le visualiseur reste immobile
     }
